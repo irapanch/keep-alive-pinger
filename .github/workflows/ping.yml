@@ -15,4 +15,4 @@ jobs:
 
       - name: 🌐 Ping frontend endpoint
         run: |
-          curl -m 10 -s ${{ secrets.FRONTEND_URL }} || echo "❌ Ping frontend failed"
+          curl -I -m 10 -s ${{ secrets.FRONTEND_URL }} || echo "❌ Ping frontend failed"
