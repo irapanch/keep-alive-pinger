@@ -2,7 +2,7 @@ name: 🌐 Keep-alive Pinger
 
 on:
   schedule:
-    - cron: "*/12 * * * *"
+    - cron: "*/6 * * * *"
   workflow_dispatch:
 
 jobs:
