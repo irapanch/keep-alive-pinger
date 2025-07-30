@@ -1,0 +1,18 @@
+name: 🌐 Keep-alive Pinger
+
+on:
+  schedule:
+    - cron: "*/12 * * * *" 
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔁 Ping backend endpoint
+        run: |
+          curl -m 10 -s ${{ secrets.BACKEND_URL }} || echo "❌ Ping backend failed"
+
+      - name: 🌐 Ping frontend endpoint
+        run: |
+          curl -m 10 -s ${{ secrets.FRONTEND_URL }} || echo "❌ Ping frontend failed"
