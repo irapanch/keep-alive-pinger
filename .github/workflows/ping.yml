@@ -2,7 +2,7 @@ name: 🌐 Keep-alive Pinger
 
 on:
   schedule:
-    - cron: "*/12 * * * *" 
+    - cron: "*/12 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -11,8 +11,18 @@ jobs:
     steps:
       - name: 🔁 Ping backend endpoint
         run: |
-          curl -m 10 -s ${{ secrets.BACKEND_URL }} || echo "❌ Ping backend failed"
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" ${{ secrets.BACKEND_URL }})
+          if [ "$STATUS" -eq 200 ]; then
+            echo "✅ Backend is alive (HTTP $STATUS)"
+          else
+            echo "❌ Backend ping failed (HTTP $STATUS)"
+          fi
 
       - name: 🌐 Ping frontend endpoint
         run: |
-          curl -I -m 10 -s ${{ secrets.FRONTEND_URL }} || echo "❌ Ping frontend failed"
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" ${{ secrets.FRONTEND_URL }})
+          if [ "$STATUS" -eq 200 ]; then
+            echo "✅ Frontend is alive (HTTP $STATUS)"
+          else
+            echo "❌ Frontend ping failed (HTTP $STATUS)"
+          fi
